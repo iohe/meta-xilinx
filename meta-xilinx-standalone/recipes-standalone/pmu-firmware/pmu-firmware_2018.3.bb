@@ -1,10 +1,10 @@
 inherit deploy
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://../../../../license.txt;md5=2a8d7a7f870f65ce77e8ccd8150cce10"
+LIC_FILES_CHKSUM = "file://../../../../license.txt;md5=71602ce1bc2917a9be07ceee6fab6711"
 
-XILINX_RELEASE_VERSION = "v2018.2"
-SRCREV = "0c6cd096c8f81978854c782c7aa175241fc3af20"
+XILINX_RELEASE_VERSION = "v2018.3"
+SRCREV = "56f3da2afbc817988c9a45b0b26a7fef2ac91706"
 PV = "${XILINX_RELEASE_VERSION}+git${SRCPV}"
 
 SRC_URI = "git://github.com/Xilinx/embeddedsw.git;protocol=https;nobranch=1"
@@ -29,15 +29,6 @@ COMPILER = "${CC}"
 COMPILER_FLAGS = "-O2 -c"
 EXTRA_COMPILER_FLAGS = "-g -Wall -Wextra -Os -flto -ffat-lto-objects"
 ARCHIVER = "${AR}"
-
-
-# HACK: fix the dirty bug where xilsecure wants to call this PSVersion
-# function, which is not implemented for microblaze. The symbols never make it
-# into the final elf as the xilsecure function that uses it is not called in
-# pmufw.
-
-# Also add recipe-sysroot include
-EXTRA_COMPILER_FLAGS_append = " -DXGetPSVersion_Info=atexit -I${STAGING_DIR_TARGET}/usr/include"
 
 BSP_DIR ?= "${S}/../misc/zynqmp_pmufw_bsp"
 BSP_TARGETS_DIR ?= "${BSP_DIR}/psu_pmu_0/libsrc"
